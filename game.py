@@ -1,7 +1,7 @@
 import pygame
 import random
 import sys
-from utils import generate_food, draw_objects, WIDTH, HEIGHT, BLOCK_SIZE
+from utils import generate_food, draw_objects, WIDTH, HEIGHT, BLOCK_SIZE, draw_grid, BLACK
 
 clock = pygame.time.Clock()
 
@@ -9,19 +9,20 @@ def play_game( win ):
     print( "Starting player only mode" )
 
     # Snake initial location and rotation
-    snake = [ ( WIDTH / 2, HEIGHT / 2 ) ]
+    snake = [ ( WIDTH // 2 // BLOCK_SIZE * BLOCK_SIZE, HEIGHT // 2 // BLOCK_SIZE * BLOCK_SIZE ) ]
     direction = ( BLOCK_SIZE, 0 )
 
     # Generate the first food
     food = generate_food( snake )
     score = 0
 
-    # Game
+    # Main Game
     running = True
     while running:
         fps = 5    # Game runs frames per second
         clock.tick( fps )
 
+        # Handle key events
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:
@@ -33,13 +34,13 @@ def play_game( win ):
                 if event.key == pygame.K_UP and direction != ( 0, BLOCK_SIZE ):
                     direction = ( 0, -BLOCK_SIZE )
                 # Move Down
-                elif event.key == pygame.K_DOWN and direction != ( 0, BLOCK_SIZE ):
+                if event.key == pygame.K_DOWN and direction != ( 0, -BLOCK_SIZE ):
                     direction = ( 0, BLOCK_SIZE )
                 # Move Left
-                elif event.key == pygame.K_LEFT and direction != ( 0, BLOCK_SIZE ):
+                if event.key == pygame.K_LEFT and direction != ( BLOCK_SIZE, 0 ):
                     direction = ( -BLOCK_SIZE, 0 )
                 # Move Right
-                elif event.key == pygame.K_RIGHT and direction != ( 0, BLOCK_SIZE ):
+                if event.key == pygame.K_RIGHT and direction != ( -BLOCK_SIZE, 0 ):
                     direction = ( BLOCK_SIZE, 0 )
 
         # Move snake
@@ -59,6 +60,10 @@ def play_game( win ):
             running = False
 
         # Draw everything
+        win.fill( BLACK )
+        draw_grid( win )
         draw_objects( snake, food, win )
+
+        pygame.display.update()
 
     pygame.quit()
