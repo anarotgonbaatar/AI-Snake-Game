@@ -1,11 +1,11 @@
 import pygame
-from utils import RED, GREEN, BLUE, WHITE, GRAY, BLACK
+from utils import WHITE, GRAY
 
 class Button:
     def __init__( self, text, pos ):
         self.text = text
         self.pos = pos
-        self.rect = pygame.Rect( pos[0], pos[1], 200, 50 )
+        self.rect = pygame.Rect( pos[0], pos[1], 250, 50 )
         self.color = GRAY
 
     def draw( self, screen ):

@@ -35,3 +35,9 @@ def draw_grid( win ):
         pygame.draw.line( win, grid_color, ( x, 0 ), ( x, HEIGHT ) )    # Vertical lines
     for y in range( 0, HEIGHT, BLOCK_SIZE ):
         pygame.draw.line( win, grid_color, ( 0, y ), ( WIDTH, y ) )     # Horizontal lines
+
+pygame.font.init()
+font = pygame.font.Font( None, 30 )
+def display_score( win, score ):
+    score_text = font.render( f"Score: {score}", True, WHITE )
+    win.blit( score_text, ( 10, 10 ) )

@@ -6,6 +6,7 @@ from game import play_game
 from ai import ai_only, player_vs_ai, ai_vs_ai
 
 pygame.init()
+pygame.font.init()
 
 # Screen settings
 win = pygame.display.set_mode(( WIDTH, HEIGHT ))

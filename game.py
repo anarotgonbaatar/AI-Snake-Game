@@ -1,7 +1,9 @@
 import pygame
 import random
 import sys
-from utils import generate_food, draw_objects, WIDTH, HEIGHT, BLOCK_SIZE, draw_grid, BLACK
+from buttons import Button
+from utils import generate_food, draw_objects, draw_grid, display_score
+from utils import WIDTH, HEIGHT, BLOCK_SIZE, BLACK, RED, WHITE
 
 clock = pygame.time.Clock()
 
@@ -19,7 +21,7 @@ def play_game( win ):
     # Main Game
     running = True
     while running:
-        fps = 5    # Game runs frames per second
+        fps = 8    # Game runs frames per second
         clock.tick( fps )
 
         # Handle key events
@@ -56,14 +58,56 @@ def play_game( win ):
         
         # Check for wall or self
         if ( new_head[0] < 0 or new_head[0] >= WIDTH or new_head[1] < 0 or new_head[1] >= HEIGHT or new_head in snake[1:] ):
-            print( "Game Over." )
+            game_over( win, score )
             running = False
 
         # Draw everything
         win.fill( BLACK )
         draw_grid( win )
         draw_objects( snake, food, win )
+        display_score( win, score )
 
         pygame.display.update()
 
     pygame.quit()
+
+def game_over( win, score ):
+    font = pygame.font.Font( None, 40 )
+
+    # Game Over text
+    game_over_text = font.render( "Game Over", True, RED )
+    score_text = font.render( f"Your Score: {score}", True, WHITE )
+    buttons = [
+        Button( "Restart", ( WIDTH / 2 - 100, 150 )),
+        Button( "Return to Menu", ( WIDTH / 2 - 100, 210 )),
+        Button( "QUIT", ( WIDTH / 2 - 100, 390 ))
+    ]
+
+    # Draw them
+    # Black background
+    win.fill( BLACK )
+
+    # Draw buttons
+    for button in buttons:
+        button.draw( win )
+
+    win.blit( game_over_text, ( WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - 200 ) )
+    win.blit( score_text, ( WIDTH // 2 - score_text.get_width() // 2, HEIGHT // 2 - 0 ) )
+    
+    pygame.display.update()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                for button in buttons:
+                    if button.is_clicked( event.pos ):
+                        if button.text == "Restart":
+                            play_game( win )
+                        elif button.text == "Return to Menu":
+                            return
+                        elif button.text == "QUIT":
+                            pygame.quit()
+                            sys.exit()
