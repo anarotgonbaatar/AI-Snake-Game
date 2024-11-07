@@ -3,7 +3,7 @@ import random
 
 # Screen
 BLOCK_SIZE = 20
-WIDTH, HEIGHT = BLOCK_SIZE * 45, BLOCK_SIZE * 30
+WIDTH, HEIGHT = BLOCK_SIZE * 30, BLOCK_SIZE * 20
 
 # Colors
 WHITE = ( 255, 255, 255 )
