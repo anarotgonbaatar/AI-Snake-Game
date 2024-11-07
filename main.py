@@ -2,8 +2,8 @@ import pygame
 import sys
 from utils import BLACK, WIDTH, HEIGHT
 from buttons import Button
-from game import play_game
-from ai import ai_only, player_vs_ai, ai_vs_ai
+from player_mode import PlayerMode
+from ai_mode import AI_Mode
 
 pygame.init()
 pygame.font.init()
@@ -14,8 +14,8 @@ pygame.display.set_caption( "AI Snake Game" )
 font = pygame.font.Font( None, 40 )
 
 buttons = [
-    Button( "Play Game", ( WIDTH / 2 - 100, 150 )),
-    Button( "Play AI", ( WIDTH / 2 - 100, 210 )),
+    Button( "Player Only", ( WIDTH / 2 - 100, 150 )),
+    Button( "AI Only", ( WIDTH / 2 - 100, 210 )),
     Button( "You vs AI", ( WIDTH / 2 - 100, 270 )),
     Button( "AI vs AI", ( WIDTH / 2 - 100, 330 )),
     Button( "QUIT", ( WIDTH / 2 - 100, 390 ))
@@ -40,14 +40,18 @@ def menu():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 for button in buttons:
                     if button.is_clicked( event.pos ):
-                        if button.text == "Play Game":
-                            play_game( win )
-                        elif button.text == "Play AI":
-                            ai_only( win )
+                        if button.text == "Player Only":
+                            game = PlayerMode( win )
+                            game.run()
+                        elif button.text == "AI Only":
+                            game = AI_Mode( win )
+                            game.run()
                         elif button.text == "You vs AI":
-                            player_vs_ai( win )
+                            game = AI_Mode( win )
+                            game.run()
                         elif button.text == "AI vs AI":
-                            ai_vs_ai( win )
+                            game = AI_Mode( win )
+                            game.run()
                         elif button.text == "QUIT":
                             pygame.quit()
                             sys.exit()
