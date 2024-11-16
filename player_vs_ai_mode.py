@@ -8,18 +8,18 @@ class PlayerVsAIMode(SnakeGame):
     def __init__(self, win):
         super().__init__(win)
         # Initialize AI snake
-        self.ai_snake = self.snake  # Use the existing snake for player
+        self.ai_snake = self.snake  # Use the existing snake for AI
         self.ai_direction = self.direction
         self.ai = SnakeAI(self)
 
 
         # Initialize player snake
-        self.player_snake = [(WIDTH // 4, HEIGHT // 4)]  # Initial position of AI snake
-        self.player_direction = (BLOCK_SIZE, 0)  # Initial AI direction
+        self.player_snake = [(WIDTH // 4, HEIGHT // 4)]  # Initial position of player snake
+        self.player_direction = (BLOCK_SIZE, 0)  # player direction
 
 
         # Food for both snakes
-        self.ai_food = self.food
+        self.player_food = self.food
         self.ai_food = generate_food(self.player_snake + self.ai_snake)
 
     def run(self):
@@ -49,7 +49,7 @@ class PlayerVsAIMode(SnakeGame):
 
             # Check for wall collisions
             if self.check_collisions_1(self.player_snake) or self.check_collisions_1(self.ai_snake) :
-                print("Game Over: player collision with wall")
+                print("Game Over: collision with wall")
                 running = False
 
 
