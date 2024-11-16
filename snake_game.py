@@ -43,14 +43,15 @@ class SnakeGame:
         else:
             self.snake.pop()
 
-    def update_snake_position_1(self, snake, direction):
+    def update_specific_snake_position(self, snake, direction, food ):
         new_head = (snake[0][0] + direction[0], snake[0][1] + direction[1])
         snake.insert(0, new_head)
         if new_head == self.food:
             self.score += 1
-            self.food = generate_food(snake)
+            return generate_food(snake)
         else:
             snake.pop()
+            return food
 
 
     def check_collisions( self ):
@@ -58,7 +59,7 @@ class SnakeGame:
         head = self.snake[0]
         return ( head[0] < 0 or head[0] >= WIDTH or head[1] < 0 or head[1] >= HEIGHT or head in self.snake[1:] )
 
-    def check_collisions_1(self, snake):
+    def check_specific_collisions(self, snake):
         # Wall and self-collision check
         head = snake[0]
         return (

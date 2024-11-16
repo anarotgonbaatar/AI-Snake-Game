@@ -15,6 +15,7 @@ GREEN = ( 0, 255, 0 )
 DARK_GREEN = ( 0, 200, 0 )
 BLUE = ( 0, 0, 255 )
 DARK_BLUE = ( 0, 0, 200 )
+YELLOW = ( 255, 255, 0 )
 
 def generate_food( snake ):
     # Generate food at random locations

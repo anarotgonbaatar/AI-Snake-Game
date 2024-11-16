@@ -1,4 +1,4 @@
-from utils import WIDTH, HEIGHT, BLACK, RED, WHITE
+from utils import WIDTH, HEIGHT, BLACK, RED, WHITE, generate_food
 from buttons import Button
 import sys
 import pygame
@@ -9,7 +9,7 @@ from snake_game import SnakeGame
 class AI_Mode( SnakeGame ):
     def __init__( self, win ) -> None:
         super().__init__( win )
-        self.ai = SnakeAI( self )
+        self.ai = SnakeAI( self, self.snake )
 
     def run( self ):
         clock = pygame.time.Clock()
@@ -20,11 +20,23 @@ class AI_Mode( SnakeGame ):
                     pygame.quit()
                     sys.exit()  # Properly exit the program
 
+            clock.tick( 8 )
             pygame.event.pump()  # So it doesn't crash when I move the window
 
-            next_move = self.ai.get_next_move( self.food )  # Get AI’s next move
-            self.direction = ( next_move[0] - self.snake[0][0], next_move[1] - self.snake[0][1] )
-            self.update_snake_position()
+            next_move = self.ai.get_next_move(self.food)
+            if next_move:
+                # Move the snake directly to the next position
+                self.snake.insert(0, next_move)
+
+                # Check if the food is eaten
+                if next_move == self.food:
+                    self.food = generate_food(self.snake)
+                    self.score += 1
+                else:
+                    self.snake.pop()  # Remove the tail to maintain the length
+            else:
+                print("AI couldn't find a valid path!")
+                self.running = False
 
             if self.check_collisions():
                 self.running = False
@@ -33,7 +45,6 @@ class AI_Mode( SnakeGame ):
             self.draw()
             self.ai.draw_path( self.win )
             pygame.display.update()
-            clock.tick( 8 )
 
 # AI Game Over screen
 def ai_game_over( win, score ):

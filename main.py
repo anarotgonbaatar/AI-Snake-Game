@@ -17,7 +17,7 @@ font = pygame.font.Font( None, 40 )
 buttons = [
     Button( "Player Only", ( WIDTH / 2 - 100, 150 )),
     Button( "AI Only", ( WIDTH / 2 - 100, 210 )),
-    Button( "You vs AI", ( WIDTH / 2 - 100, 270 )),
+    Button( "Player vs AI", ( WIDTH / 2 - 100, 270 )),
     Button( "AI vs AI", ( WIDTH / 2 - 100, 330 )),
     Button( "QUIT", ( WIDTH / 2 - 100, 390 ))
 ]
@@ -47,7 +47,7 @@ def menu():
                         elif button.text == "AI Only":
                             game = AI_Mode( win )
                             game.run()
-                        elif button.text == "You vs AI":
+                        elif button.text == "Player vs AI":
                             game = PlayerVsAIMode( win )
                             game.run()
                         elif button.text == "AI vs AI":
