@@ -4,6 +4,7 @@ from utils import BLACK, WIDTH, HEIGHT
 from buttons import Button
 from player_mode import PlayerMode
 from ai_mode import AI_Mode
+from player_vs_ai_mode import PlayerVsAIMode
 
 pygame.init()
 pygame.font.init()
@@ -47,7 +48,7 @@ def menu():
                             game = AI_Mode( win )
                             game.run()
                         elif button.text == "You vs AI":
-                            game = AI_Mode( win )
+                            game = PlayerVsAIMode( win )
                             game.run()
                         elif button.text == "AI vs AI":
                             game = AI_Mode( win )

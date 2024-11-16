@@ -32,7 +32,7 @@ class SnakeGame:
             self.direction = ( -BLOCK_SIZE, 0 )
         # Move Right
         if key == pygame.K_RIGHT and self.direction != ( -BLOCK_SIZE, 0 ):
-                self.direction = ( BLOCK_SIZE, 0 )
+            self.direction = ( BLOCK_SIZE, 0 )
 
     def update_snake_position( self ):
         new_head = (self.snake[0][0] + self.direction[0], self.snake[0][1] + self.direction[1])
@@ -43,10 +43,35 @@ class SnakeGame:
         else:
             self.snake.pop()
 
+    def update_snake_position_1(self, snake, direction):
+        new_head = (snake[0][0] + direction[0], snake[0][1] + direction[1])
+        snake.insert(0, new_head)
+        if new_head == self.food:
+            self.score += 1
+            self.food = generate_food(snake)
+        else:
+            snake.pop()
+
+
     def check_collisions( self ):
         # Wall and self-collision check
         head = self.snake[0]
         return ( head[0] < 0 or head[0] >= WIDTH or head[1] < 0 or head[1] >= HEIGHT or head in self.snake[1:] )
+
+    def check_collisions_1(self, snake):
+        # Wall and self-collision check
+        head = snake[0]
+        return (
+                head[0] < 0 or head[0] >= WIDTH or
+                head[1] < 0 or head[1] >= HEIGHT or
+                head in snake[1:])
+
+
+
+    def check_snake_to_snake_collision(self, snake1, snake2):
+        """Check if snake1 collides with snake2."""
+        return snake1[0] in snake2
+
 
     def draw( self ):
         self.win.fill( BLACK )
