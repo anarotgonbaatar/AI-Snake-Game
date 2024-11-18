@@ -12,7 +12,6 @@ class SnakeAI:
         self.recalculate_path = True
 
     def aStar_search(self, start, goal):
-        # print(f"Starting A* from {start} to {goal}")
         self.path = []
         open_set = []
         heapq.heappush(open_set, (0, start))
@@ -28,24 +27,26 @@ class SnakeAI:
 
             if current == goal:
                 path = self.reconstruct_path(came_from, current)
-                # print(f"Path found: {path}")
                 return path
 
             neighbors = self.get_neighbors(current)
-            # print(f"Current position: {current}, Neighbors: {neighbors}")
+
             for neighbor in neighbors:
                 tentative_g_score = g_score[current] + 1
+
                 if neighbor not in g_score or tentative_g_score < g_score[neighbor]:
                     came_from[neighbor] = current
                     g_score[neighbor] = tentative_g_score
                     f_score[neighbor] = tentative_g_score + self.heuristic(neighbor, goal)
                     heapq.heappush(open_set, (f_score[neighbor], neighbor))
 
-        # print("No path found")
         return []
 
-    def heuristic(self, a, b):
-        return abs(a[0] - b[0]) + abs(a[1] - b[1])
+    def heuristic( self, a, b, type='manhattan'):
+        if type == 'manhattan':
+            return abs( a[0] - b[0] ) + abs( a[1] - b[1] )
+        if type == 'euclidian':
+            return ( ( a[0] - b[0] ) ** 2 + ( a[1] - b[1] ) ** 2 ) ** 0.5
 
     def get_neighbors(self, position):
         directions = [(0, -BLOCK_SIZE), (0, BLOCK_SIZE), (-BLOCK_SIZE, 0), (BLOCK_SIZE, 0)]
@@ -77,31 +78,40 @@ class SnakeAI:
     def get_next_move(self, food_position):
         head = self.snake[0]  # Current head position of the AI snake
 
-        # Recalculate path only when required
-        if self.recalculate_path or not self.path or self.path[-1] != food_position or self.path[0] != head:
-            self.path = self.aStar_search(head, food_position)
-            self.recalculate_path = False
+        self.path = self.aStar_search(head, food_position)
 
-        # Follow the path step-by-step
-        if self.path and len(self.path) > 1:
-            next_step = self.path[1]
+        if self.path:
+            # Simulate eating food and escape paths
+            test_snake = [ food_position ] + self.snake[:-1]    # Sim new snake body
+            if not self.escape_possible( test_snake ):
+                print("Path leads to entrapment. Path recalculating.")
+                self.path = []    # Force recalculation
 
-            # If the head reaches the current step, move to the next step
-            if head == self.path[0]:
-                self.path.pop(0)
-
-            # Update direction for potential debugging (optional)
-            self.current_direction = (next_step[0] - head[0], next_step[1] - head[1])
+        if self.path:   # If path still valid, next step
+            next_step = self.path[0]
             return next_step
+            
+        return None     # None if no path
+    
+    def escape_possible( self, snake ):
+        visited = set()
+        queue = [ snake[0] ]
 
-        # Fallback if no valid path
-        print("AI couldn't find a valid path.")
-        next_position = (head[0] + self.current_direction[0], head[1] + self.current_direction[1])
-        return next_position if self.valid_position(next_position) else None
+        while queue:
+            current = queue.pop(0)
+            if current in visited:
+                continue
+            visited.add( current )
+
+            for neighbor in self.get_neighbors( current ):
+                if neighbor not in snake:
+                    queue.append( neighbor )
+
+        # Escape is possible if visited area is larger than snake
+        return len( visited ) >= len( snake )
         
     def draw_path( self, win ):
-        if self.path:
-            for i in range( len( self.path ) - 1 ):
-                start = ( self.path[i][0] + BLOCK_SIZE // 2, self.path[i][1] + BLOCK_SIZE // 2 )
-                end = ( self.path[i + 1][0] + BLOCK_SIZE // 2, self.path[i + 1][1] + BLOCK_SIZE // 2 )
-                pygame.draw.line( win, (0, 255, 255), start, end, 2 )  # Light blue line
+        for start, end in zip( self.path, self.path[1:] ):
+            start_center = ( start[0] + BLOCK_SIZE // 2, start[1] + BLOCK_SIZE // 2 )
+            end_center = ( end[0] + BLOCK_SIZE // 2, end[1] + BLOCK_SIZE // 2 )
+            pygame.draw.line( win, WHITE, start_center, end_center, 2 )  # white path line

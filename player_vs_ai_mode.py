@@ -14,12 +14,12 @@ class PlayerVsAIMode(SnakeGame):
         self.running = True
 
         # Initialize AI snake
-        self.ai_snake = [( WIDTH // 2 // BLOCK_SIZE * BLOCK_SIZE, HEIGHT // 2 // BLOCK_SIZE * BLOCK_SIZE )]
+        self.ai_snake = [( WIDTH // 4 // BLOCK_SIZE * BLOCK_SIZE, HEIGHT // 4 // BLOCK_SIZE * BLOCK_SIZE )]
         self.ai_direction = ( BLOCK_SIZE, 0 )
         self.ai = SnakeAI( self, self.ai_snake )
 
         # Initialize player snake
-        self.player_snake = [( WIDTH // 4 // BLOCK_SIZE * BLOCK_SIZE, HEIGHT // 4 // BLOCK_SIZE * BLOCK_SIZE )]  # Initial position of player snake
+        self.player_snake = [( WIDTH // 2 // BLOCK_SIZE * BLOCK_SIZE, HEIGHT // 2 // BLOCK_SIZE * BLOCK_SIZE )]  # Initial position of player snake
         self.player_direction = (BLOCK_SIZE, 0)  # player direction
 
         # Food for both snakes
@@ -29,7 +29,7 @@ class PlayerVsAIMode(SnakeGame):
     def run(self):
 
         while self.running:
-            self.clock.tick(8)
+            self.clock.tick(6)
             self.handle_player_input()
             self.update_ai()
             self.update_positions()
@@ -39,20 +39,21 @@ class PlayerVsAIMode(SnakeGame):
             pygame.event.pump()
 
     def handle_player_input(self):
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_UP] and self.player_direction != (0, BLOCK_SIZE):
-            self.player_direction = (0, -BLOCK_SIZE)
-        elif keys[pygame.K_DOWN] and self.player_direction != (0, -BLOCK_SIZE):
-            self.player_direction = (0, BLOCK_SIZE)
-        elif keys[pygame.K_LEFT] and self.player_direction != (BLOCK_SIZE, 0):
-            self.player_direction = (-BLOCK_SIZE, 0)
-        elif keys[pygame.K_RIGHT] and self.player_direction != (-BLOCK_SIZE, 0):
-            self.player_direction = (BLOCK_SIZE, 0)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP and self.player_direction != (0, BLOCK_SIZE):
+                    self.player_direction = (0, -BLOCK_SIZE)
+                elif event.key == pygame.K_DOWN and self.player_direction != (0, -BLOCK_SIZE):
+                    self.player_direction = (0, BLOCK_SIZE)
+                elif event.key == pygame.K_LEFT and self.player_direction != (BLOCK_SIZE, 0):
+                    self.player_direction = (-BLOCK_SIZE, 0)
+                elif event.key == pygame.K_RIGHT and self.player_direction != (-BLOCK_SIZE, 0):
+                    self.player_direction = (BLOCK_SIZE, 0)
 
     def update_ai( self ):
         next_move = self.ai.get_next_move( self.ai_food )

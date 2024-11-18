@@ -1,4 +1,4 @@
-from utils import WIDTH, HEIGHT, BLACK, RED, WHITE, generate_food
+from utils import WIDTH, HEIGHT, BLACK, RED, WHITE, generate_food, BLOCK_SIZE
 from buttons import Button
 import sys
 import pygame
@@ -20,7 +20,7 @@ class AI_Mode( SnakeGame ):
                     pygame.quit()
                     sys.exit()  # Properly exit the program
 
-            clock.tick( 8 )
+            clock.tick( 30 )
             pygame.event.pump()  # So it doesn't crash when I move the window
 
             next_move = self.ai.get_next_move(self.food)
@@ -34,9 +34,16 @@ class AI_Mode( SnakeGame ):
                     self.score += 1
                 else:
                     self.snake.pop()  # Remove the tail to maintain the length
+
             else:
-                print("AI couldn't find a valid path!")
-                self.running = False
+                print("AI couldn't find a valid path.")
+                fallback_move = self.get_fallback_move()
+                if fallback_move:
+                    self.snake.insert( 0, fallback_move )
+                    self.snake.pop()
+                else:
+                    print( "AI snake is completely stuck" )
+                    self.running = False
 
             if self.check_collisions():
                 self.running = False
@@ -45,6 +52,18 @@ class AI_Mode( SnakeGame ):
             self.draw()
             self.ai.draw_path( self.win )
             pygame.display.update()
+
+    def get_fallback_move( self ):
+        head = self.snake[0]
+        valid_moves = [
+            ( head[0] + BLOCK_SIZE, head[1] ),
+            ( head[0] - BLOCK_SIZE, head[1] ),
+            ( head[0], head[1] + BLOCK_SIZE ),
+            ( head[0], head[1] - BLOCK_SIZE ),
+        ]
+
+        valid_moves = [ move for move in valid_moves if self.ai.valid_position( move ) ]
+        return valid_moves[0] if valid_moves else None
 
 # AI Game Over screen
 def ai_game_over( win, score ):
