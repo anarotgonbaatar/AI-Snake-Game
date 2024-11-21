@@ -1,8 +1,8 @@
 import sys
 import pygame
-from utils import game_over
-from ai_logic import SnakeAI
-from snake_game import SnakeGame
+from logics.utils import game_over
+from logics.ai_logic import SnakeAI
+from logics.snake_game import SnakeGame
 
 # AI Only Gamemode
 class AI_Mode( SnakeGame ):

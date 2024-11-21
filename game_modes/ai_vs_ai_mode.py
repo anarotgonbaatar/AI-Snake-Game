@@ -1,10 +1,9 @@
 import pygame
 import sys
-from snake_game import SnakeGame
-from ai_logic import SnakeAI
-from utils import WIDTH, HEIGHT, BLOCK_SIZE, BLACK
-from utils import RED, YELLOW, GREEN, DARK_GREEN, BLUE, DARK_BLUE
-from utils import generate_food, draw_grid, snake_position, game_over
+from logics.snake_game import SnakeGame
+from logics.ai_logic import SnakeAI
+from logics.utils import BLOCK_SIZE
+from logics.utils import generate_food, snake_position, game_over
 
 class AIvsAImode( SnakeGame ):
     def __init__( self, win ):

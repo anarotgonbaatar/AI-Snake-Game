@@ -1,6 +1,6 @@
 # Just AI Logic
 import heapq
-from utils import WIDTH, HEIGHT, BLOCK_SIZE, WHITE, generate_food, game_over
+from .utils import WIDTH, HEIGHT, BLOCK_SIZE, WHITE, generate_food, game_over
 import pygame
 
 class SnakeAI:

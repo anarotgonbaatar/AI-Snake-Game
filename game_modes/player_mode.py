@@ -1,7 +1,7 @@
 import pygame
-from snake_game import SnakeGame
-from utils import BLOCK_SIZE
-from utils import snake_position, game_over
+from logics.snake_game import SnakeGame
+from logics.utils import BLOCK_SIZE
+from logics.utils import snake_position, game_over
 import sys
 
 class PlayerMode( SnakeGame ):

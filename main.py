@@ -1,11 +1,11 @@
 import pygame
 import sys
-from utils import BLACK, WIDTH, HEIGHT, WHITE, Button
+from logics.utils import BLACK, WIDTH, HEIGHT, WHITE, Button
 # Import game modes
-from player_mode import PlayerMode
-from ai_mode import AI_Mode
-from player_vs_ai_mode import PlayerVsAIMode
-from ai_vs_ai_mode import AIvsAImode
+from game_modes.player_mode import PlayerMode
+from game_modes.ai_mode import AI_Mode
+from game_modes.player_vs_ai_mode import PlayerVsAIMode
+from game_modes.ai_vs_ai_mode import AIvsAImode
 
 pygame.init()
 pygame.font.init()
