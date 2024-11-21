@@ -1,10 +1,11 @@
 import pygame
 import sys
-from utils import BLACK, WIDTH, HEIGHT
-from buttons import Button
+from utils import BLACK, WIDTH, HEIGHT, WHITE, Button
+# Import game modes
 from player_mode import PlayerMode
 from ai_mode import AI_Mode
 from player_vs_ai_mode import PlayerVsAIMode
+from ai_vs_ai_mode import AIvsAImode
 
 pygame.init()
 pygame.font.init()
@@ -15,17 +16,22 @@ pygame.display.set_caption( "AI Snake Game" )
 font = pygame.font.Font( None, 40 )
 
 buttons = [
-    Button( "Player Only", ( WIDTH / 2 - 100, 150 )),
-    Button( "AI Only", ( WIDTH / 2 - 100, 210 )),
-    Button( "Player vs AI", ( WIDTH / 2 - 100, 270 )),
-    Button( "AI vs AI", ( WIDTH / 2 - 100, 330 )),
-    Button( "QUIT", ( WIDTH / 2 - 100, 390 ))
+    Button( "Player Only", ( WIDTH / 2 - 250 / 2, 150 )),
+    Button( "AI Only", ( WIDTH / 2 - 250 / 2, 210 )),
+    Button( "Player vs AI", ( WIDTH / 2 - 250 / 2, 270 )),
+    Button( "AI vs AI", ( WIDTH / 2 - 250 / 2, 330 )),
+    Button( "QUIT", ( WIDTH / 2 - 250 / 2, 390 )),
 ]
 
 def menu():
     while True:
         # Black background
         win.fill( BLACK )
+
+        # Draw title
+        font = pygame.font.Font( None, 50 )
+        title_text = font.render( "AI Snake Game", True, WHITE )   
+        win.blit( title_text, ( WIDTH / 2 - title_text.get_width() / 2, 50 ) )
 
         # Draw buttons
         for button in buttons:
@@ -51,7 +57,7 @@ def menu():
                             game = PlayerVsAIMode( win )
                             game.run()
                         elif button.text == "AI vs AI":
-                            game = AI_Mode( win )
+                            game = AIvsAImode( win )
                             game.run()
                         elif button.text == "QUIT":
                             pygame.quit()
