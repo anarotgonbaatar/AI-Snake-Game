@@ -1,9 +1,12 @@
-# Just AI Logic
+# AI Logic
 import heapq
 from .utils import WIDTH, HEIGHT, BLOCK_SIZE, WHITE, generate_food, game_over
 import pygame
 
+# AI Logic for controlling the AI snakes in game.
+# Uses A* for pathfinding and movement.
 class SnakeAI:
+    # Initialize the AI instance
     def __init__(self, game_instance, snake):
         self.game = game_instance
         self.snake = snake
@@ -11,11 +14,13 @@ class SnakeAI:
         self.path = []
         self.recalculate_path = True
 
+    # A* search to find the shortest path to the food
+    # Returns a list of positions from snake/start to food/goal
     def aStar_search(self, start, goal, other_snake=None ):
         self.path = []
-        open_set = []
+        open_set = []   # Priority queue for A*
         heapq.heappush(open_set, (0, start))
-        came_from = {}
+        came_from = {}  # Map to reconstruct the path
         g_score = {start: 0}
         f_score = {start: self.heuristic(start, goal, 'manhattan' )}
         max_iterations = 500
@@ -23,17 +28,19 @@ class SnakeAI:
 
         while open_set and iterations < max_iterations:
             iterations += 1
-            _, current = heapq.heappop(open_set)
+            _, current = heapq.heappop(open_set)    # Get position with lowest cost
 
             if current == goal:
                 path = self.reconstruct_path(came_from, current)
                 return path
 
+            # Check neighbors and calculate their costs
             neighbors = self.get_neighbors( current, other_snake )
 
             for neighbor in neighbors:
                 tentative_g_score = g_score[current] + 1
 
+                # If neighbor is cheaper or unvisited
                 if neighbor not in g_score or tentative_g_score < g_score[neighbor]:
                     came_from[neighbor] = current
                     g_score[neighbor] = tentative_g_score
@@ -52,6 +59,7 @@ class SnakeAI:
         if type == 'chebyshev':
             return max( abs( a[0] - b[0] ), abs( a[1] - b[1] ) )
 
+    # Gets and returns a list of valid neighboring positions
     def get_neighbors( self, position, other_snake=None ):
         directions = [(0, -BLOCK_SIZE), (0, BLOCK_SIZE), (-BLOCK_SIZE, 0), (BLOCK_SIZE, 0)]
         neighbors = []
@@ -63,6 +71,7 @@ class SnakeAI:
 
         return neighbors
 
+    # Returns boolean if a position is valid (within walls/boundaries and not colliding with anything)
     def valid_position( self, position, other_snake=None ):
         within_boundaries = 0 <= position[0] < WIDTH and 0 <= position[1] < HEIGHT
         not_colliding = position not in self.snake
@@ -74,6 +83,7 @@ class SnakeAI:
 
         return is_valid
 
+    # Returns a list of positions representing the path
     def reconstruct_path(self, came_from, current):
         path = []
         while current in came_from:
@@ -81,6 +91,7 @@ class SnakeAI:
             current = came_from[current]
         return path
 
+    # Returns the next position for the AI snake to move to
     def get_next_move( self, food_position, other_snake=None ):
         head = self.snake[0]  # Current head position of the AI snake
 
@@ -98,8 +109,9 @@ class SnakeAI:
             next_step = self.path[0]
             return next_step
             
-        return None     # None if no path
+        return None
     
+    # Returns boolean if escape is possible
     def escape_possible( self, snake ):
         visited = set()
         queue = [ snake[0] ]
@@ -117,6 +129,7 @@ class SnakeAI:
         # Escape is possible if visited area is larger than snake
         return len( visited ) >= len( snake )
     
+    # Returns updated snake movement, food collection, score, and running state
     def update_ai_movement( self, ai_snake, next_move, food, score, running, win, sys, gamemode ):
         if next_move:
             # Move the snake to the next position
@@ -143,6 +156,7 @@ class SnakeAI:
 
         return food, score, running     # Return updated vars
 
+    # Returns a valid position to move to if there is no valid path
     def get_fallback_move( self, ai_snake ):
         head = ai_snake[0]
         
@@ -161,7 +175,8 @@ class SnakeAI:
             return valid_moves[0]
         else:
             return None
-        
+    
+    # Displays the caluclated AI path on game
     def draw_path( self, win ):
         if not self.path: return
         
