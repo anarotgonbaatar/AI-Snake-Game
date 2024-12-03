@@ -74,5 +74,5 @@ AI Snake Game is a python implementation of the classic Snake game with 4 game m
   - Anar Otgonbaatar
   - Puthioudom Chum
   - Steven Ly
-  -
+  - Tri Bui
 - **Framework:** Python with `pygame`
