@@ -9,7 +9,7 @@ class AI_Mode( SnakeGame ):
     def __init__( self, win ) -> None:
         super().__init__( win )
         self.ai = SnakeAI( self, self.snake )
-        self.fps = 60
+        self.fps = 0
 
     def run( self ):
         clock = pygame.time.Clock()

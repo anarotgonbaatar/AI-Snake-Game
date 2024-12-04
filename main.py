@@ -6,6 +6,7 @@ from game_modes.player_mode import PlayerMode
 from game_modes.ai_mode import AI_Mode
 from game_modes.player_vs_ai_mode import PlayerVsAIMode
 from game_modes.ai_vs_ai_mode import AIvsAImode
+from game_modes.benchmark_mode import BenchmarkMode
 
 pygame.init()
 pygame.font.init()
@@ -20,7 +21,8 @@ buttons = [
     Button( "AI Only", ( WIDTH / 2 - 250 / 2, 210 )),
     Button( "Player vs AI", ( WIDTH / 2 - 250 / 2, 270 )),
     Button( "AI vs AI", ( WIDTH / 2 - 250 / 2, 330 )),
-    Button( "QUIT", ( WIDTH / 2 - 250 / 2, 390 )),
+    Button( "Benchmark", ( WIDTH / 2 - 250 / 2, 390 )),
+    Button( "QUIT", ( WIDTH / 2 - 250 / 2, 450 )),
 ]
 
 def menu():
@@ -59,6 +61,9 @@ def menu():
                         elif button.text == "AI vs AI":
                             game = AIvsAImode( win )
                             game.run()
+                        elif button.text == "Benchmark":
+                            game = BenchmarkMode( win )
+                            game.benchmark()
                         elif button.text == "QUIT":
                             pygame.quit()
                             sys.exit()

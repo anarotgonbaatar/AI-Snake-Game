@@ -102,7 +102,7 @@ class SnakeAI:
             test_snake = [ food_position ] + self.snake[:-1]    # Sim new snake body
             
             if not self.escape_possible( test_snake ):
-                print("Path leads to entrapment. Path recalculating.")
+                # print("Path leads to entrapment. Path recalculating.")
                 self.path = []    # Force recalculation
 
         if self.path:   # If path still valid, next step
