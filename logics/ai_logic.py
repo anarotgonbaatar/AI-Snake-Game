@@ -152,7 +152,7 @@ class SnakeAI:
                 ai_snake.pop()
             else:
                 running = False
-                game_over( win, None, score, gamemode, sys )
+                # game_over( win, None, score, gamemode, sys )
 
         return food, score, running     # Return updated vars
 

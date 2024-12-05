@@ -1,0 +1,3 @@
+Grid Size: 30/30 | Number of Runs: 5 | Avg Pathfinding Speed: 0.0210s | Avg Survival Time: 2565.00 ticks | Avg Score: 104.60 | Avg Memory Usage: 103.7141 KB/run
+Grid Size: 20x20 | Number of Runs: 5 | Avg Pathfinding Speed: 0.0073s | Avg Survival Time: 1235.60 ticks | Avg Score: 71.40 | Avg Memory Usage: 63.1953 KB/run
+Grid Size: 40x40 | Number of Runs: 5 | Avg Pathfinding Speed: 0.0435s | Avg Survival Time: 4485.20 ticks | Avg Score: 138.40 | Avg Memory Usage: 254.3703 KB/run
