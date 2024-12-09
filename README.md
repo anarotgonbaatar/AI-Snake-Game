@@ -13,9 +13,9 @@ AI Snake Game is a python implementation of the classic Snake game with 4 game m
 
 ## Installation
 
-1. **Clone the repository:**
+1. **Download Files:**
 
-   - `git clone https://github.com/anarotgonbaatar/AI-Snake-Game.git`
+   - Download and unzip the AI-Snake-Game.zip folder
 
 2. **Install dependencies:**
 
