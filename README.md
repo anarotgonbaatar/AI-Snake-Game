@@ -28,6 +28,14 @@ AI Snake Game is a python implementation of the classic Snake game with 4 game m
 
 ## Core Concepts
 
+### Snake Game Implementation
+
+- `snake_game.py`:
+  - Provides core functionalities of Snake Game including game logic, player input handling, collision detection, and rendering
+ 
+- `utils.py`:
+  - Essential functions including snake and food placement, scoring, and game-over functionality
+
 ### Pathfinding with A\* Algorithm:
 
 - `ai_logic.py`:
